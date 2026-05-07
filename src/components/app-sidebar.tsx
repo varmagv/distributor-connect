@@ -1,4 +1,4 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
   CalendarDays,
@@ -33,9 +33,9 @@ const items = [
 ];
 
 export function AppSidebar() {
-  const currentPath = useRouterState({ select: (s) => s.location.pathname });
+  const { pathname } = useLocation();
   const isActive = (url: string) =>
-    url === "/" ? currentPath === "/" : currentPath.startsWith(url);
+    url === "/" ? pathname === "/" : pathname.startsWith(url);
 
   return (
     <Sidebar collapsible="icon" className="border-r-0">
@@ -45,12 +45,8 @@ export function AppSidebar() {
             <TrendingUp className="h-5 w-5" />
           </div>
           <div className="flex flex-col leading-tight group-data-[collapsible=icon]:hidden">
-            <span className="text-sm font-semibold text-sidebar-foreground">
-              AMC Connect
-            </span>
-            <span className="text-xs text-sidebar-foreground/60">
-              Distributor Engagement
-            </span>
+            <span className="text-sm font-semibold text-sidebar-foreground">AMC Connect</span>
+            <span className="text-xs text-sidebar-foreground/60">Distributor Engagement</span>
           </div>
         </div>
       </SidebarHeader>

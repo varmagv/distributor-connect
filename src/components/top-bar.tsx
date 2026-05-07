@@ -1,8 +1,8 @@
 import { Bell } from "lucide-react";
+import { Link } from "react-router-dom";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "@tanstack/react-router";
 
 export function TopBar() {
   return (
