@@ -9,38 +9,148 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VrmRouteImport } from './routes/vrm'
+import { Route as PlannerRouteImport } from './routes/planner'
+import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as MappingRouteImport } from './routes/mapping'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DistributorsIndexRouteImport } from './routes/distributors.index'
+import { Route as DistributorsIdRouteImport } from './routes/distributors.$id'
 
+const VrmRoute = VrmRouteImport.update({
+  id: '/vrm',
+  path: '/vrm',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlannerRoute = PlannerRouteImport.update({
+  id: '/planner',
+  path: '/planner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MappingRoute = MappingRouteImport.update({
+  id: '/mapping',
+  path: '/mapping',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DistributorsIndexRoute = DistributorsIndexRouteImport.update({
+  id: '/distributors/',
+  path: '/distributors/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DistributorsIdRoute = DistributorsIdRouteImport.update({
+  id: '/distributors/$id',
+  path: '/distributors/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/mapping': typeof MappingRoute
+  '/notifications': typeof NotificationsRoute
+  '/planner': typeof PlannerRoute
+  '/vrm': typeof VrmRoute
+  '/distributors/$id': typeof DistributorsIdRoute
+  '/distributors/': typeof DistributorsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/mapping': typeof MappingRoute
+  '/notifications': typeof NotificationsRoute
+  '/planner': typeof PlannerRoute
+  '/vrm': typeof VrmRoute
+  '/distributors/$id': typeof DistributorsIdRoute
+  '/distributors': typeof DistributorsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/mapping': typeof MappingRoute
+  '/notifications': typeof NotificationsRoute
+  '/planner': typeof PlannerRoute
+  '/vrm': typeof VrmRoute
+  '/distributors/$id': typeof DistributorsIdRoute
+  '/distributors/': typeof DistributorsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/mapping'
+    | '/notifications'
+    | '/planner'
+    | '/vrm'
+    | '/distributors/$id'
+    | '/distributors/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/mapping'
+    | '/notifications'
+    | '/planner'
+    | '/vrm'
+    | '/distributors/$id'
+    | '/distributors'
+  id:
+    | '__root__'
+    | '/'
+    | '/mapping'
+    | '/notifications'
+    | '/planner'
+    | '/vrm'
+    | '/distributors/$id'
+    | '/distributors/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MappingRoute: typeof MappingRoute
+  NotificationsRoute: typeof NotificationsRoute
+  PlannerRoute: typeof PlannerRoute
+  VrmRoute: typeof VrmRoute
+  DistributorsIdRoute: typeof DistributorsIdRoute
+  DistributorsIndexRoute: typeof DistributorsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/vrm': {
+      id: '/vrm'
+      path: '/vrm'
+      fullPath: '/vrm'
+      preLoaderRoute: typeof VrmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/planner': {
+      id: '/planner'
+      path: '/planner'
+      fullPath: '/planner'
+      preLoaderRoute: typeof PlannerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mapping': {
+      id: '/mapping'
+      path: '/mapping'
+      fullPath: '/mapping'
+      preLoaderRoute: typeof MappingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +158,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/distributors/': {
+      id: '/distributors/'
+      path: '/distributors'
+      fullPath: '/distributors/'
+      preLoaderRoute: typeof DistributorsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/distributors/$id': {
+      id: '/distributors/$id'
+      path: '/distributors/$id'
+      fullPath: '/distributors/$id'
+      preLoaderRoute: typeof DistributorsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MappingRoute: MappingRoute,
+  NotificationsRoute: NotificationsRoute,
+  PlannerRoute: PlannerRoute,
+  VrmRoute: VrmRoute,
+  DistributorsIdRoute: DistributorsIdRoute,
+  DistributorsIndexRoute: DistributorsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
