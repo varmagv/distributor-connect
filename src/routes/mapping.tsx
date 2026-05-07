@@ -38,7 +38,7 @@ function Mapping() {
         <p className="text-sm text-muted-foreground">Manage assignments and reallocate distributors.</p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         {summary.map((s) => (
           <Card key={s.label}>
             <CardContent className="p-5">
@@ -72,7 +72,7 @@ function Mapping() {
       </Card>
 
       <Card>
-        <CardContent className="p-0">
+        <CardContent className="p-0 overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
