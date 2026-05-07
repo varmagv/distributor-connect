@@ -108,12 +108,26 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
+import { TopBar } from "@/components/top-bar";
+import { Toaster } from "@/components/ui/sonner";
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <TopBar />
+          <main className="flex-1 p-4 sm:p-6">
+            <Outlet />
+          </main>
+        </SidebarInset>
+      </SidebarProvider>
+      <Toaster richColors position="top-right" />
     </QueryClientProvider>
   );
 }
