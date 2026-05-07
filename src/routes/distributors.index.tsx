@@ -72,8 +72,40 @@ function Directory() {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardContent className="p-0">
+      {/* Mobile cards */}
+      <div className="grid gap-3 md:hidden">
+        {filtered.map((d) => {
+          const rm = RMS.find((r) => r.id === d.rmId);
+          return (
+            <Link key={d.id} to="/distributors/$id" params={{ id: d.id }}>
+              <Card className="transition active:scale-[0.99]">
+                <CardContent className="p-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="truncate font-medium">{d.name}</p>
+                      <p className="text-xs text-muted-foreground font-mono">{d.arn} · {d.city}</p>
+                    </div>
+                    <StatusBadge status={d.status} />
+                  </div>
+                  <div className="mt-3 grid grid-cols-3 gap-2 text-xs">
+                    <div><p className="text-muted-foreground">AUM</p><p className="font-semibold">{fmtCr(d.aum)}</p></div>
+                    <div><p className="text-muted-foreground">Net Sales</p><p className={`font-semibold ${d.netSales < 0 ? "text-destructive" : ""}`}>{fmtCr(d.netSales)}</p></div>
+                    <div><p className="text-muted-foreground">SIPs</p><p className="font-semibold">{d.sips}</p></div>
+                  </div>
+                  <p className="mt-3 text-xs text-muted-foreground">RM: {rm?.name}</p>
+                </CardContent>
+              </Card>
+            </Link>
+          );
+        })}
+        {filtered.length === 0 && (
+          <Card><CardContent className="py-10 text-center text-sm text-muted-foreground">No distributors match the filters.</CardContent></Card>
+        )}
+      </div>
+
+      {/* Desktop table */}
+      <Card className="hidden md:block">
+        <CardContent className="p-0 overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
