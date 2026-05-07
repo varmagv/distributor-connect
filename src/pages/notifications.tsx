@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,11 +7,6 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { NOTIFICATIONS, type Notification } from "@/data/sample";
 import { AlertCircle, AlertTriangle, CheckCircle2, Info, ArrowRight } from "lucide-react";
 
-export const Route = createFileRoute("/notifications")({
-  head: () => ({ meta: [{ title: "Notifications — AMC Connect" }] }),
-  component: Notifications,
-});
-
 const ICONS = {
   alert: { icon: AlertCircle, color: "text-destructive bg-destructive/10" },
   warning: { icon: AlertTriangle, color: "text-warning-foreground bg-warning/20" },
@@ -19,12 +14,9 @@ const ICONS = {
   info: { icon: Info, color: "text-info bg-info/10" },
 } as const;
 
-function Notifications() {
+export default function Notifications() {
   const [list, setList] = useState<Notification[]>(NOTIFICATIONS);
-
-  const toggle = (id: string) =>
-    setList(list.map((n) => (n.id === id ? { ...n, read: !n.read } : n)));
-
+  const toggle = (id: string) => setList(list.map((n) => (n.id === id ? { ...n, read: !n.read } : n)));
   const filterFor = (tab: "All" | "Alerts" | "System") =>
     tab === "All" ? list : list.filter((n) => n.category === tab);
 
@@ -63,7 +55,7 @@ function Notifications() {
                       </div>
                       {n.distributorId && (
                         <Button asChild size="sm" variant="outline" className="gap-1">
-                          <Link to="/distributors/$id" params={{ id: n.distributorId }}>
+                          <Link to={`/distributors/${n.distributorId}`}>
                             Take Action <ArrowRight className="h-3 w-3" />
                           </Link>
                         </Button>

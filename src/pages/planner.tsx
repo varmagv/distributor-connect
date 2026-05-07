@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,16 +14,9 @@ import { ACTIVITIES, ACTIVITY_TYPES, DISTRIBUTORS, PRODUCTS, type Activity } fro
 import { Plus, MapPin, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/planner")({
-  head: () => ({ meta: [{ title: "Activity Planner — AMC Connect" }] }),
-  component: Planner,
-});
+function sameDay(a: Date, b: Date) { return a.toDateString() === b.toDateString(); }
 
-function sameDay(a: Date, b: Date) {
-  return a.toDateString() === b.toDateString();
-}
-
-function Planner() {
+export default function Planner() {
   const [activities, setActivities] = useState<Activity[]>(ACTIVITIES);
   const [date, setDate] = useState<Date>(new Date());
   const [openCreate, setOpenCreate] = useState(false);
@@ -77,9 +69,7 @@ function Planner() {
             <Button className="gap-2"><Plus className="h-4 w-4" /> Create Activity</Button>
           </SheetTrigger>
           <SheetContent className="overflow-y-auto sm:max-w-md">
-            <SheetHeader>
-              <SheetTitle>New Activity</SheetTitle>
-            </SheetHeader>
+            <SheetHeader><SheetTitle>New Activity</SheetTitle></SheetHeader>
             <div className="space-y-4 px-4 py-4">
               <div className="space-y-2">
                 <Label>Distributor</Label>
@@ -133,9 +123,7 @@ function Planner() {
                 <Textarea rows={4} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
               </div>
             </div>
-            <SheetFooter>
-              <Button onClick={addActivity}>Schedule Activity</Button>
-            </SheetFooter>
+            <SheetFooter><Button onClick={addActivity}>Schedule Activity</Button></SheetFooter>
           </SheetContent>
         </Sheet>
       </div>
@@ -204,9 +192,7 @@ function Planner() {
 }
 
 function PostVisitDialog({
-  activity,
-  onClose,
-  onSubmit,
+  activity, onClose, onSubmit,
 }: {
   activity: Activity | null;
   onClose: () => void;
@@ -219,9 +205,7 @@ function PostVisitDialog({
   return (
     <Dialog open={!!activity} onOpenChange={(o) => !o && onClose()}>
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Post-Visit Log</DialogTitle>
-        </DialogHeader>
+        <DialogHeader><DialogTitle>Post-Visit Log</DialogTitle></DialogHeader>
         <div className="space-y-4">
           <div className="space-y-2">
             <Label>Discussion Summary</Label>

@@ -1,0 +1,8 @@
+{
+  "deployment": {
+    "name": "distributor-connect",
+    "version": "1.0.0",
+    "homepage": "index.html",
+    "description": "AMC Distributor Engagement Platform"
+  }
+}

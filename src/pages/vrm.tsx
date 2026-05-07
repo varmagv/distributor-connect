@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -7,12 +6,7 @@ import { DispositionBadge } from "@/components/status-badges";
 import { Phone, PhoneCall } from "lucide-react";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/vrm")({
-  head: () => ({ meta: [{ title: "VRM Call Center — AMC Connect" }] }),
-  component: VRM,
-});
-
-function VRM() {
+export default function VRM() {
   const vrm = RMS.find((r) => r.role === "VRM")!;
   const queue = TODAYS_QUEUE.map((id) => DISTRIBUTORS.find((d) => d.id === id)!);
 
@@ -50,11 +44,8 @@ function VRM() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Distributor</TableHead>
-                <TableHead>Date & Time</TableHead>
-                <TableHead>Duration</TableHead>
-                <TableHead>Disposition</TableHead>
-                <TableHead>Notes</TableHead>
+                <TableHead>Distributor</TableHead><TableHead>Date & Time</TableHead><TableHead>Duration</TableHead>
+                <TableHead>Disposition</TableHead><TableHead>Notes</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,12 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { DISTRIBUTORS, RMS } from "@/data/sample";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/mapping")({
-  head: () => ({ meta: [{ title: "RM Mapping — AMC Connect" }] }),
-  component: Mapping,
-});
-
-function Mapping() {
+export default function Mapping() {
   const [reassign, setReassign] = useState<string | null>(null);
   const [target, setTarget] = useState(RMS[0].id);
 
@@ -24,11 +18,7 @@ function Mapping() {
     { label: "Unmapped", value: 0 },
     { label: "Multi-branch", value: 2 },
   ];
-
-  const allocation = RMS.map((r) => ({
-    rm: r,
-    count: DISTRIBUTORS.filter((d) => d.rmId === r.id).length,
-  }));
+  const allocation = RMS.map((r) => ({ rm: r, count: DISTRIBUTORS.filter((d) => d.rmId === r.id).length }));
   const max = Math.max(...allocation.map((a) => a.count));
 
   return (
@@ -76,13 +66,8 @@ function Mapping() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Distributor</TableHead>
-                <TableHead>ARN</TableHead>
-                <TableHead>City</TableHead>
-                <TableHead>Assigned RM</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Effective Date</TableHead>
-                <TableHead></TableHead>
+                <TableHead>Distributor</TableHead><TableHead>ARN</TableHead><TableHead>City</TableHead>
+                <TableHead>Assigned RM</TableHead><TableHead>Type</TableHead><TableHead>Effective Date</TableHead><TableHead></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { Link, useParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,21 +10,12 @@ import {
 } from "recharts";
 import { ArrowLeft, Calendar, IndianRupee, Repeat, Clock } from "lucide-react";
 
-export const Route = createFileRoute("/distributors/$id")({
-  head: ({ params }) => {
-    const d = DISTRIBUTORS.find((x) => x.id === params.id);
-    return { meta: [{ title: `${d?.name ?? "Distributor"} — AMC Connect` }] };
-  },
-  component: Distributor360,
-  notFoundComponent: () => <p>Distributor not found.</p>,
-});
-
 const COLORS = ["var(--color-chart-1)", "var(--color-chart-2)", "var(--color-chart-3)"];
 
-function Distributor360() {
-  const { id } = Route.useParams();
+export default function Distributor360() {
+  const { id } = useParams();
   const d = DISTRIBUTORS.find((x) => x.id === id);
-  if (!d) throw notFound();
+  if (!d) return <p className="p-6">Distributor not found.</p>;
   const rm = RMS.find((r) => r.id === d.rmId);
   const upcoming = ACTIVITIES.filter((a) => a.distributorId === d.id && a.status === "Planned").slice(0, 2);
   const calls = CALL_LOGS.filter((c) => c.distributorId === d.id).slice(0, 3);

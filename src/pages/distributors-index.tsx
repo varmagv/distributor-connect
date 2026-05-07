@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,19 +8,13 @@ import { DISTRIBUTORS, RMS, fmtCr } from "@/data/sample";
 import { StatusBadge } from "@/components/status-badges";
 import { Search } from "lucide-react";
 
-export const Route = createFileRoute("/distributors/")({
-  head: () => ({ meta: [{ title: "Distributor Directory — AMC Connect" }] }),
-  component: Directory,
-});
-
-function Directory() {
+export default function DistributorsIndex() {
   const [q, setQ] = useState("");
   const [city, setCity] = useState("all");
   const [status, setStatus] = useState("all");
   const [aumRange, setAumRange] = useState("all");
 
   const cities = Array.from(new Set(DISTRIBUTORS.map((d) => d.city)));
-
   const filtered = DISTRIBUTORS.filter((d) => {
     if (q && !`${d.name} ${d.arn}`.toLowerCase().includes(q.toLowerCase())) return false;
     if (city !== "all" && d.city !== city) return false;
@@ -72,12 +66,11 @@ function Directory() {
         </CardContent>
       </Card>
 
-      {/* Mobile cards */}
       <div className="grid gap-3 md:hidden">
         {filtered.map((d) => {
           const rm = RMS.find((r) => r.id === d.rmId);
           return (
-            <Link key={d.id} to="/distributors/$id" params={{ id: d.id }}>
+            <Link key={d.id} to={`/distributors/${d.id}`}>
               <Card className="transition active:scale-[0.99]">
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between gap-2">
@@ -103,20 +96,16 @@ function Directory() {
         )}
       </div>
 
-      {/* Desktop table */}
       <Card className="hidden md:block">
         <CardContent className="p-0 overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>ARN</TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>City</TableHead>
+                <TableHead>ARN</TableHead><TableHead>Name</TableHead><TableHead>City</TableHead>
                 <TableHead className="text-right">AUM</TableHead>
                 <TableHead className="text-right">Net Sales</TableHead>
                 <TableHead className="text-right">SIPs</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>RM</TableHead>
+                <TableHead>Status</TableHead><TableHead>RM</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -126,7 +115,7 @@ function Directory() {
                   <TableRow key={d.id} className="cursor-pointer hover:bg-muted/40">
                     <TableCell className="font-mono text-xs">{d.arn}</TableCell>
                     <TableCell className="font-medium">
-                      <Link to="/distributors/$id" params={{ id: d.id }} className="hover:underline">{d.name}</Link>
+                      <Link to={`/distributors/${d.id}`} className="hover:underline">{d.name}</Link>
                     </TableCell>
                     <TableCell>{d.city}</TableCell>
                     <TableCell className="text-right">{fmtCr(d.aum)}</TableCell>

@@ -1,53 +1,25 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip as RTooltip,
-  CartesianGrid,
+  ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip as RTooltip, CartesianGrid,
 } from "recharts";
 import { ACTIVITIES, DISTRIBUTORS, fmtCr, RMS } from "@/data/sample";
 import { ActivityBadge } from "@/components/status-badges";
 import { AlertTriangle, CalendarCheck, ClipboardList, IndianRupee, Sparkles, ArrowRight } from "lucide-react";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Dashboard — AMC Connect" },
-      { name: "description", content: "RM dashboard for distributor engagement" },
-    ],
-  }),
-  component: Dashboard,
-});
-
-function Dashboard() {
+export default function Dashboard() {
   const today = new Date();
-  const dateStr = today.toLocaleDateString("en-IN", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-
-  const planned = ACTIVITIES.filter((a) => a.status === "Planned");
+  const dateStr = today.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
   const completedThisWeek = 11;
   const totalAUM = DISTRIBUTORS.reduce((s, d) => s + d.aum, 0);
-
-  const top5 = [...DISTRIBUTORS].sort((a, b) => b.aum - a.aum).slice(0, 5)
-    .map((d) => ({ name: d.name.split(" ")[0], aum: d.aum }));
-
+  const top5 = [...DISTRIBUTORS].sort((a, b) => b.aum - a.aum).slice(0, 5).map((d) => ({ name: d.name.split(" ")[0], aum: d.aum }));
   const feed = [...ACTIVITIES].sort((a, b) => +new Date(b.date) - +new Date(a.date)).slice(0, 5);
-
   const nudges = [
     { title: "Finwise Advisory AUM dropped 12%", body: "Schedule a visit this week to address concerns.", id: "d5" },
     { title: "Prudent Wealth Mgmt", body: "3 pending SIP registrations to follow up.", id: "d8" },
     { title: "Kapoor Investments", body: "Not contacted in 28 days — outreach overdue.", id: "d3" },
   ];
-
   const kpis = [
     { label: "Today's Planned", value: 3, icon: CalendarCheck, hint: "activities scheduled" },
     { label: "Completed This Week", value: completedThisWeek, icon: ClipboardList, hint: "across portfolio" },
@@ -83,9 +55,7 @@ function Dashboard() {
 
       <div className="grid gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle className="text-base">Top 5 Distributors by AUM</CardTitle>
-          </CardHeader>
+          <CardHeader><CardTitle className="text-base">Top 5 Distributors by AUM</CardTitle></CardHeader>
           <CardContent className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={top5}>
@@ -110,7 +80,7 @@ function Dashboard() {
               <div key={i} className="rounded-md border border-accent/30 bg-accent/5 p-3">
                 <p className="text-sm font-medium">{n.title}</p>
                 <p className="mt-1 text-xs text-muted-foreground">{n.body}</p>
-                <Link to="/distributors/$id" params={{ id: n.id }} className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline">
+                <Link to={`/distributors/${n.id}`} className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline">
                   Take action <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
@@ -120,9 +90,7 @@ function Dashboard() {
       </div>
 
       <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Activity Feed</CardTitle>
-        </CardHeader>
+        <CardHeader><CardTitle className="text-base">Activity Feed</CardTitle></CardHeader>
         <CardContent>
           <ol className="relative space-y-4 border-l border-border pl-5">
             {feed.map((a) => {
