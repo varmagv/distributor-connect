@@ -62,7 +62,7 @@ function Dashboard() {
         <p className="text-sm text-muted-foreground">{dateStr}</p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         {kpis.map((k) => (
           <Card key={k.label}>
             <CardContent className="p-5">
