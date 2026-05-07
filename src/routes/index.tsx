@@ -65,15 +65,15 @@ function Dashboard() {
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         {kpis.map((k) => (
           <Card key={k.label}>
-            <CardContent className="p-5">
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-wide text-muted-foreground">{k.label}</p>
-                  <p className="mt-2 text-2xl font-semibold">{k.value}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{k.hint}</p>
+            <CardContent className="p-4 sm:p-5">
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0">
+                  <p className="text-[10px] sm:text-xs uppercase tracking-wide text-muted-foreground">{k.label}</p>
+                  <p className="mt-1 sm:mt-2 text-xl sm:text-2xl font-semibold truncate">{k.value}</p>
+                  <p className="mt-1 text-[10px] sm:text-xs text-muted-foreground">{k.hint}</p>
                 </div>
-                <div className="rounded-md bg-primary/5 p-2 text-primary">
-                  <k.icon className="h-5 w-5" />
+                <div className="rounded-md bg-primary/5 p-1.5 sm:p-2 text-primary">
+                  <k.icon className="h-4 w-4 sm:h-5 sm:w-5" />
                 </div>
               </div>
             </CardContent>
